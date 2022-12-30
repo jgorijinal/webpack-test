@@ -9,6 +9,17 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename:'[name]_[hash].js'
   },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
+      }
+    ]
+  },
   plugins: [
     new CleanWebpackPlugin(), // 不需要传入任何参数
     new HtmlWebpackPlugin({
