@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin') // 需要解构
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-module.exports = {
+const config = {
   mode:'development',
   entry: {
     main:'./src/index.js',
@@ -12,7 +12,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name]_[hash].js',
-    chunkFilename:'[id].js'
+    chunkFilename:'[id].js' 
   },
   module: {
     rules: [
@@ -38,6 +38,14 @@ module.exports = {
     new HtmlWebpackPlugin({
       template:'./src/index.html'
     }),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename:'[name].css'
+    })
   ]
+}
+module.exports = (env, argv) => {
+  console.log(env)
+  console.log(argv)
+  return config
 }
