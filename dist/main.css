@@ -1,8 +1,1 @@
-body {
-  background: yellow;
-}
-h1 {
-  -webkit-transform:translate(100%,100%);
-      -ms-transform:translate(100%,100%);
-          transform:translate(100%,100%)
-}
+body{background:#ff0}h1{-webkit-transform:translate(100%,100%);-ms-transform:translate(100%,100%);transform:translate(100%,100%)}

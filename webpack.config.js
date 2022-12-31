@@ -2,7 +2,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin') // 需要解构
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const config = {
   mode: 'development',
   devtool:'eval-cheap-module-source-map',
@@ -46,6 +46,10 @@ const config = {
           'css-loader',
           'sass-loader'
         ]
+      },
+      {
+        test: /meta.html/,
+        type:'asset/source'
       }
     ]
   },
@@ -64,6 +68,12 @@ const config = {
       chunkFilename:'[name].css'
     })
   ],
+  optimization: {
+    minimizer: [
+      new CssMinimizerPlugin(),  // <- css 代码压缩
+    ],
+    minimize: true
+  },
   devServer: {
     client: {
       overlay: true, // 关闭全屏的代码遮罩层
