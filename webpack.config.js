@@ -1,21 +1,34 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin') // 需要解构
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
   mode:'development',
-  entry: './src/index.js',
+  entry: {
+    main:'./src/index.js',
+    test:'./src/test.js'
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename:'[name]_[hash].js'
+    filename: '[name]_[hash].js',
+    chunkFilename:'[id].js'
   },
   module: {
     rules: [
       {
         test: /\.css$/,
         use: [
-          'style-loader',
-          'css-loader'
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+        ]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader'
         ]
       }
     ]
@@ -25,5 +38,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template:'./src/index.html'
     }),
+    new MiniCssExtractPlugin()
   ]
 }
