@@ -2,7 +2,8 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin') // 需要解构
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin"); // css 代码压缩
+const TerserPlugin = require("terser-webpack-plugin"); // 删除 console
 const config = {
   mode: 'development',
   devtool:'eval-cheap-module-source-map',
@@ -71,6 +72,13 @@ const config = {
   optimization: {
     minimizer: [
       new CssMinimizerPlugin(),  // <- css 代码压缩
+      new TerserPlugin({
+        terserOptions: {
+          compress: {            
+            drop_console: true  // 只 production 模式生效
+          }
+        }
+      })
     ],
     minimize: true
   },
