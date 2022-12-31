@@ -4,7 +4,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin') // 需要解构
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const config = {
-  mode:'development',
+  mode: 'development',
+  devtool:'eval-cheap-module-source-map',
   entry: {
     main:'./src/index.js',
     test:'./src/test.js'
@@ -21,6 +22,21 @@ const config = {
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
+          {
+            loader: 'postcss-loader',
+            options:{
+              postcssOptions:{
+                plugins: [
+                  [
+                    'autoprefixer',
+                    {
+                      // 选项
+                    }
+                  ]
+                ]
+              }
+            }
+          }
         ]
       },
       {
@@ -36,13 +52,27 @@ const config = {
   plugins: [
     new CleanWebpackPlugin(), // 不需要传入任何参数
     new HtmlWebpackPlugin({
-      template:'./src/index.html'
+      template: './src/index.html',
+      filename:'test.html',
+      templateParameters: {
+        titleName: 'test-title-name',
+        jsList:['https://code.jquery.com/jquery-3.1.0.js']
+      }
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename:'[name].css'
     })
-  ]
+  ],
+  devServer: {
+    client: {
+      overlay: true, // 关闭全屏的代码遮罩层
+      progress: true // 半分比显示编译进度
+    },
+    devServer: {
+      compress: true,  // 启用 gzip
+    },
+  }
 }
 module.exports = (env, argv) => {
   console.log(env)
